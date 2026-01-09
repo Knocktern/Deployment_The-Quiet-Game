@@ -80,6 +80,11 @@ def register_main_routes(app: Flask) -> None:
         """Render the landing page."""
         return render_template('index.html')
     
+    @app.route('/turn-test')
+    def turn_test():
+        """TURN server connectivity test page."""
+        return render_template('turn-test.html')
+    
     @app.errorhandler(404)
     def not_found(error):
         """Handle 404 errors."""

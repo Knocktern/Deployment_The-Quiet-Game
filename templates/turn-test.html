@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC TURN Server Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        .info {
+            color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 WebRTC TURN Server Test</h1>
+        <p>This page tests if TURN servers can bypass your firewall.</p>
+        
+        <button onclick="testTurnServers()">🧪 Test TURN Servers</button>
+        <button onclick="clearResults()">Clear Results</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const config = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                {
+                    urls: 'turn:openrelay.metered.ca:80',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                },
+                {
+                    urls: 'turn:openrelay.metered.ca:443',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                },
+                {
+                    urls: 'turns:openrelay.metered.ca:443?transport=tcp',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                },
+                {
+                    urls: 'turn:numb.viagenie.ca',
+                    username: 'webrtc@live.com',
+                    credential: 'muazkh'
+                }
+            ]
+        };
+
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+            results.innerHTML += `<div class="${className}">${message}</div>`;
+            results.scrollTop = results.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function testTurnServers() {
+            clearResults();
+            log('🔄 Starting TURN server test...', 'info');
+            log('');
+
+            try {
+                const pc = new RTCPeerConnection(config);
+                const foundTypes = {
+                    host: false,
+                    srflx: false,
+                    relay: false
+                };
+
+                pc.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        const candidate = event.candidate.candidate;
+                        log(`✓ ICE Candidate: ${candidate}`, 'info');
+
+                        if (candidate.includes('typ host')) {
+                            foundTypes.host = true;
+                            log('  → Type: HOST (local network)', 'info');
+                        } else if (candidate.includes('typ srflx')) {
+                            foundTypes.srflx = true;
+                            log('  → Type: SRFLX (STUN reflexive)', 'success');
+                        } else if (candidate.includes('typ relay')) {
+                            foundTypes.relay = true;
+                            log('  → Type: RELAY (TURN server) ✓✓✓', 'success');
+                        }
+                        log('');
+                    } else {
+                        log('');
+                        log('═══════════════════════════════════════', 'info');
+                        log('📊 RESULTS:', 'info');
+                        log('═══════════════════════════════════════', 'info');
+                        
+                        if (foundTypes.relay) {
+                            log('✅ SUCCESS: TURN servers are working!', 'success');
+                            log('✅ Video should work across different networks', 'success');
+                        } else {
+                            log('❌ FAILED: No TURN relay candidates found', 'error');
+                            log('❌ Firewall is blocking TURN servers', 'error');
+                            log('');
+                            log('💡 Solutions:', 'info');
+                            log('  1. Try different network (mobile hotspot)', 'info');
+                            log('  2. Contact network admin about TURN servers', 'info');
+                            log('  3. Use paid TURN service (Twilio)', 'info');
+                        }
+                        
+                        log('');
+                        log('Found candidate types:', 'info');
+                        log(`  HOST: ${foundTypes.host ? '✓' : '✗'}`, foundTypes.host ? 'success' : 'error');
+                        log(`  SRFLX (STUN): ${foundTypes.srflx ? '✓' : '✗'}`, foundTypes.srflx ? 'success' : 'error');
+                        log(`  RELAY (TURN): ${foundTypes.relay ? '✓' : '✗'}`, foundTypes.relay ? 'success' : 'error');
+
+                        pc.close();
+                    }
+                };
+
+                // Create offer to trigger ICE gathering
+                const offer = await pc.createOffer({
+                    offerToReceiveAudio: true,
+                    offerToReceiveVideo: true
+                });
+                await pc.setLocalDescription(offer);
+
+                log('✓ ICE gathering started...', 'info');
+                log('');
+
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

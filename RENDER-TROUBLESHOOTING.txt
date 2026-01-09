@@ -1,0 +1,102 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║     🔧 RENDER DEPLOYMENT TROUBLESHOOTING GUIDE 🔧             ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+✅ FIXED: Removed PYTHON_VERSION environment variable
+   → Python version is now controlled by runtime.txt only
+
+═════════════════════════════════════════════════════════════════
+
+📝 WHAT WAS CHANGED:
+
+render.yaml:
+  ❌ REMOVED: PYTHON_VERSION=3.11.0 env var
+  ✅ USING: runtime.txt (python-3.11.0)
+  ✅ Simplified configuration
+
+═════════════════════════════════════════════════════════════════
+
+🚀 DEPLOYMENT SHOULD NOW WORK
+
+Changes pushed to: deployment branch (commit c77774d)
+Render will auto-deploy from the deployment branch
+
+═════════════════════════════════════════════════════════════════
+
+🔍 IF DEPLOYMENT STILL FAILS, CHECK:
+
+1. BUILD LOGS on Render Dashboard
+   → Look for specific error messages
+   → Common issues listed below
+
+2. COMMON ERRORS & FIXES:
+
+   ERROR: "No module named 'eventlet'"
+   FIX: Already in requirements.txt ✅
+
+   ERROR: "Port 5000 already in use"
+   FIX: Already using PORT env var ✅
+
+   ERROR: "Python version not found"
+   FIX: runtime.txt specifies python-3.11.0 ✅
+
+   ERROR: "Build command failed"
+   → Check requirements.txt dependencies
+   → Some packages might have compatibility issues
+
+3. ALTERNATIVE: Try simpler runtime.txt
+   
+   If python-3.11.0 fails, try:
+   • python-3.11
+   • python-3.10.0
+   • python-3.9
+
+═════════════════════════════════════════════════════════════════
+
+📋 CURRENT CONFIGURATION STATUS:
+
+✅ render.yaml      - Fixed, minimal config
+✅ runtime.txt      - python-3.11.0
+✅ requirements.txt - All dependencies listed
+✅ Procfile         - Backup for other platforms
+✅ app.py           - Production ready (PORT env var)
+✅ .gitignore       - Database files excluded
+✅ Branch           - deployment (auto-deploy enabled)
+
+═════════════════════════════════════════════════════════════════
+
+🎯 NEXT STEPS:
+
+1. Go to Render Dashboard
+2. Find "the-quiet-game" service
+3. Check "Latest Deploy" status
+4. If failed, click "View Logs"
+5. Share error message if needed
+
+OR
+
+Render should auto-deploy after detecting the new commit!
+Watch for notification: "Deploy succeeded ✅"
+
+═════════════════════════════════════════════════════════════════
+
+💡 DEBUGGING TIPS:
+
+• Build logs show EXACT error
+• Most errors are in "Installing dependencies" phase
+• If dependencies fail, try removing eventlet temporarily
+• Test locally first: python app.py
+
+═════════════════════════════════════════════════════════════════
+
+🆘 STILL STUCK?
+
+Try manual trigger:
+  1. Render Dashboard → the-quiet-game
+  2. Click "Manual Deploy" → "Deploy latest commit"
+  3. Select branch: deployment
+  4. Click "Deploy"
+
+═════════════════════════════════════════════════════════════════
