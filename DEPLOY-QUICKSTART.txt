@@ -1,0 +1,63 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║        🚀 RENDER.COM DEPLOYMENT - QUICK REFERENCE 🚀          ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📦 YOUR APP IS DEPLOYMENT-READY!
+
+✅ All configuration files created:
+   • requirements.txt (Python dependencies)
+   • render.yaml (Render Blueprint)
+   • runtime.txt (Python 3.11.0)
+   • .env.example (Environment template)
+   • app.py (Production configured)
+   • WebRTC enhanced (5 STUN servers)
+
+═════════════════════════════════════════════════════════════════
+
+🎯 DEPLOY IN 5 STEPS:
+
+1. PUSH TO GITHUB
+   git add .
+   git commit -m "Deploy to Render"
+   git push origin main
+
+2. SIGN UP
+   → https://render.com
+   → Sign up with GitHub
+
+3. CREATE SERVICE
+   → New + → Blueprint
+   → Select repository
+   → Click "Apply"
+
+4. WAIT FOR BUILD
+   → Takes 3-5 minutes
+   → Monitor logs
+
+5. ACCESS YOUR APP
+   → https://the-quiet-game.onrender.com
+
+═════════════════════════════════════════════════════════════════
+
+⚙️ AUTOMATIC CONFIGURATION:
+   • Port: Auto-assigned by Render
+   • Environment: Production
+   • Database: 1GB persistent disk
+   • SSL: Free HTTPS certificate
+   • Region: Oregon (or your choice)
+
+═════════════════════════════════════════════════════════════════
+
+⚠️ FREE TIER NOTES:
+   • Spins down after 15 min idle
+   • 30-60s cold start time
+   • 750 hours/month free
+   • WebRTC works ~80% (STUN only)
+
+═════════════════════════════════════════════════════════════════
+
+📖 FULL GUIDE: See DEPLOYMENT.md for detailed instructions
+
+═════════════════════════════════════════════════════════════════

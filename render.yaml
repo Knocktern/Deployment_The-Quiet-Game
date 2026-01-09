@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: the-quiet-game
+    runtime: python
+    region: oregon  # Choose closest to your users: oregon, frankfurt, singapore, ohio
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
+    disk:
+      name: game-database
+      mountPath: /opt/render/project/src/instance
+      sizeGB: 1

@@ -31,11 +31,14 @@ const videoStatus = document.getElementById('videoStatus');
 const participantCount = document.getElementById('participantCount');
 
 // ICE Server Configuration
+// Multiple STUN servers for redundancy and better connectivity
 const ICE_SERVERS = {
     iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
         { urls: 'stun:stun1.l.google.com:19302' },
-        { urls: 'stun:stun2.l.google.com:19302' }
+        { urls: 'stun:stun2.l.google.com:19302' },
+        { urls: 'stun:stun3.l.google.com:19302' },
+        { urls: 'stun:stun4.l.google.com:19302' }
     ]
 };
 

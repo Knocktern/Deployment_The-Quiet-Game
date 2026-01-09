@@ -489,6 +489,12 @@ def handle_ice_candidate(data: dict):
 # =============================================================================
 
 if __name__ == '__main__':
+    # Get port from environment variable (for Render, Heroku, etc.) or default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    
+    # Get environment from config
+    is_production = os.environ.get('FLASK_ENV') == 'production'
+    
     print("""
     ╔═══════════════════════════════════════════════════════════════╗
     ║                                                               ║
@@ -497,14 +503,15 @@ if __name__ == '__main__':
     ║    A Skribbl-like game using sign language!                   ║
     ║    Act out words with signs, others guess.                    ║
     ║                                                               ║
-    ║    Server running at: http://localhost:5000                   ║
+    ║    Server running on port: {:<36}║
+    ║    Environment: {:<46}║
     ║                                                               ║
     ╚═══════════════════════════════════════════════════════════════╝
-    """)
+    """.format(port, 'Production' if is_production else 'Development'))
     
     socketio.run(
         app,
-        host='0.0.0.0',
-        port=5000,
-        debug=True
+        host='0.0.0.0',  # Required for external access (Render, Docker, etc.)
+        port=port,
+        debug=not is_production  # Disable debug in production
     )
