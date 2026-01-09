@@ -4,7 +4,7 @@ services:
     runtime: python
     region: oregon  # Choose closest to your users: oregon, frankfurt, singapore, ohio
     plan: free
-    branch: main
+    branch: deployment
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
     envVars:
