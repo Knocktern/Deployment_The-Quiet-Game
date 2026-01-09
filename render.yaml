@@ -14,7 +14,6 @@ services:
         value: 3.11.0
       - key: SECRET_KEY
         generateValue: true
-    disk:
-      name: game-database
-      mountPath: /opt/render/project/src/instance
-      sizeGB: 1
+    # Note: Free tier does NOT support persistent disks
+    # Database will reset on each deploy/restart
+    # Upgrade to Starter plan ($7/mo) for persistent storage

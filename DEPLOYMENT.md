@@ -93,9 +93,10 @@ Render automatically sets these:
 - `PYTHON_VERSION` - Python 3.11.0
 
 ### **Persistent Disk for Database**
-- **Mount Path:** `/opt/render/project/src/instance`
-- **Size:** 1GB (free tier)
-- **Purpose:** SQLite database persistence across deployments
+- ⚠️ **FREE TIER LIMITATION:** Persistent disks are NOT supported on free tier
+- **Impact:** SQLite database will reset on each deploy/restart
+- **Workaround:** Game state is temporary - players can create new rooms after restart
+- **Solution:** Upgrade to Starter plan ($7/month) for persistent storage with disk support
 
 ### **WebRTC Configuration**
 - **STUN Servers:** 5 Google public STUN servers for redundancy
@@ -113,7 +114,7 @@ Render automatically sets these:
 | **Hours/Month** | 750 hours free |
 | **RAM** | 512MB |
 | **Bandwidth** | 100GB/month |
-| **Disk** | 1GB persistent storage |
+| **Disk** | ❌ NO persistent storage (database resets on deploy/restart) |
 
 ---
 
@@ -134,9 +135,17 @@ cat requirements.txt
 - Ensure `eventlet` is installed (required for Socket.IO)
 
 ### **Issue: Database Not Persisting**
-- Verify disk is mounted at `/opt/render/project/src/instance`
-- Check Render Dashboard → Disks section
-- Database file: `instance/silent_mood.db`
+- ⚠️ **On FREE tier:** Database WILL reset on every deploy/restart (no persistent disk support)
+- **Impact:** Game rooms and scores are temporary (session-based only)
+- **This is normal** for free tier - not a bug
+- **Solution:** Upgrade to Starter plan ($7/mo) to add persistent disk:
+  ```yaml
+  # Add to render.yaml after upgrading
+  disk:
+    name: game-database
+    mountPath: /opt/render/project/src/instance
+    sizeGB: 1
+  ```
 
 ### **Issue: Video Connections Fail**
 - Ensure testing over **HTTPS** (required for WebRTC)

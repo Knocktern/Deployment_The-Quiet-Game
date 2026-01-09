@@ -1,0 +1,75 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ⚠️  IMPORTANT: FREE TIER DATABASE LIMITATION  ⚠️            ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+🔴 RENDER FREE TIER DOES NOT SUPPORT PERSISTENT DISKS
+
+This means your SQLite database will RESET every time:
+  • The app redeploys (code updates)
+  • The service restarts
+  • The app spins down and back up
+
+═════════════════════════════════════════════════════════════════
+
+✅ WHAT STILL WORKS:
+
+Your game is FULLY FUNCTIONAL for live gameplay:
+  ✅ Players can create rooms
+  ✅ Players can join with room codes
+  ✅ Video streaming works
+  ✅ Real-time guessing and scoring
+  ✅ Complete game sessions
+  ✅ Leaderboards (during active session)
+
+❌ WHAT DOESN'T PERSIST:
+
+  ❌ Game history after restart
+  ❌ Historical player scores
+  ❌ Room data after service sleeps
+
+═════════════════════════════════════════════════════════════════
+
+💡 THIS IS PERFECT FOR:
+
+  • Testing and demo purposes
+  • Casual gameplay sessions
+  • Learning and development
+  • Proof of concept
+
+🎮 EACH GAME SESSION IS INDEPENDENT:
+  • Players join → play → finish → done
+  • No need for historical data
+  • Fresh start every time
+
+═════════════════════════════════════════════════════════════════
+
+💰 NEED PERSISTENT DATA?
+
+Upgrade to Render Starter Plan ($7/month):
+  ✅ Persistent disk (1GB-10GB)
+  ✅ Always-on (no cold starts)
+  ✅ Better performance
+  ✅ Database survives restarts
+
+To add persistent disk after upgrading:
+  1. Go to Render Dashboard
+  2. Upgrade to Starter plan
+  3. Add disk configuration:
+     
+     In render.yaml, add:
+     disk:
+       name: game-database
+       mountPath: /opt/render/project/src/instance
+       sizeGB: 1
+
+═════════════════════════════════════════════════════════════════
+
+🚀 DEPLOYMENT STATUS: ✅ READY FOR FREE TIER
+
+Your render.yaml is now fixed and compatible with free tier!
+Proceed with deployment - your game will work perfectly for 
+real-time gameplay sessions.
+
+═════════════════════════════════════════════════════════════════

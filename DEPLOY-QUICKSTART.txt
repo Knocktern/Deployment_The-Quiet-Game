@@ -55,6 +55,8 @@
    • 30-60s cold start time
    • 750 hours/month free
    • WebRTC works ~80% (STUN only)
+   • ❌ NO database persistence (resets on deploy)
+   • Game rooms are session-based only
 
 ═════════════════════════════════════════════════════════════════
 
