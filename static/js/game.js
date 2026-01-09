@@ -38,7 +38,7 @@ const rtcConfig = {
         { urls: 'stun:stun4.l.google.com:19302' },
         
         // FREE TURN servers for video relay (cross-network support)
-        // OpenRelay by Metered - Free public TURN server
+        // OpenRelay by Metered - Multiple protocols for firewall bypass
         {
             urls: 'turn:openrelay.metered.ca:80',
             username: 'openrelayproject',
@@ -53,8 +53,23 @@ const rtcConfig = {
             urls: 'turn:openrelay.metered.ca:443?transport=tcp',
             username: 'openrelayproject',
             credential: 'openrelayproject'
-        }
-    ]
+        },
+        {
+            urls: 'turns:openrelay.metered.ca:443?transport=tcp',
+            username: 'openrelayproject',
+            credential: 'openrelayproject'
+        },
+        // Backup TURN server - Numb STUN
+        {
+            urls: 'turn:numb.viagenie.ca',
+            username: 'webrtc@live.com',
+            credential: 'muazkh'
+        },
+        // Additional STUN servers
+        { urls: 'stun:stun.relay.metered.ca:80' }
+    ],
+    // Try TURN servers first for firewall/NAT issues
+    iceTransportPolicy: 'all'  // Use 'relay' to force TURN, 'all' to try both
 };
 
 // =============================================================================
