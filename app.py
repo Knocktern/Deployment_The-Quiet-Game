@@ -513,5 +513,6 @@ if __name__ == '__main__':
         app,
         host='0.0.0.0',  # Required for external access (Render, Docker, etc.)
         port=port,
-        debug=not is_production  # Disable debug in production
+        debug=not is_production,  # Disable debug in production
+        allow_unsafe_werkzeug=True  # Allow Werkzeug in production for Socket.IO
     )
