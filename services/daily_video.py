@@ -36,11 +36,11 @@ class DailyCoManager:
             Room data with 'url' field, or None if creation failed
         """
         if not self.api_key:
-            # Use public demo domain - works without API key
-            # Format: https://YOUR-SUBDOMAIN.daily.co/ROOM-NAME
+            # Use Daily.co's public demo domain - works without API key
+            # Anyone can create temporary rooms on daily.co domain
             return {
                 'name': room_name,
-                'url': f'https://the-quiet-game.daily.co/{room_name}',
+                'url': f'https://{room_name}.daily.co',
                 'created': True,
                 'demo': True  # Flag to indicate demo mode
             }
@@ -78,7 +78,7 @@ class DailyCoManager:
         if not self.api_key:
             return {
                 'name': room_name,
-                'url': f'https://the-quiet-game.daily.co/{room_name}',
+                'url': f'https://{room_name}.daily.co',
                 'demo': True
             }
         
