@@ -68,8 +68,10 @@ const rtcConfig = {
         // Additional STUN servers
         { urls: 'stun:stun.relay.metered.ca:80' }
     ],
-    // Try TURN servers first for firewall/NAT issues
-    iceTransportPolicy: 'all'  // Use 'relay' to force TURN, 'all' to try both
+    // FORCE TURN relay mode - bypasses firewall by routing ALL traffic through TURN
+    iceTransportPolicy: 'relay',  // Changed from 'all' - ONLY uses TURN servers
+    bundlePolicy: 'max-bundle',
+    rtcpMuxPolicy: 'require'
 };
 
 // =============================================================================
