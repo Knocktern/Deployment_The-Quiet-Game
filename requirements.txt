@@ -14,6 +14,9 @@ python-engineio==4.13.0
 # Async/Event Handling (required for production)
 eventlet==0.37.0
 
+# Production WSGI Server
+gunicorn==21.2.0
+
 # WebSocket Support
 simple-websocket==1.1.0
 h11==0.16.0

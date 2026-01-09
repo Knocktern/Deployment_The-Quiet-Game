@@ -99,7 +99,7 @@ app = create_app('development')
 socketio = SocketIO(
     app,
     cors_allowed_origins="*",
-    async_mode='threading'
+    async_mode='eventlet'  # Use eventlet for production (already in requirements.txt)
 )
 
 
@@ -488,8 +488,14 @@ def handle_ice_candidate(data: dict):
 # Application Entry Point
 # =============================================================================
 
+# =============================================================================
+# Application Entry Point (for local development)
+# =============================================================================
+# For production (Render), Gunicorn will import 'app' directly
+# For local development, run: python app.py
+
 if __name__ == '__main__':
-    # Get port from environment variable (for Render, Heroku, etc.) or default to 5000
+    # Get port from environment variable or default to 5000
     port = int(os.environ.get('PORT', 5000))
     
     # Get environment from config
@@ -506,13 +512,17 @@ if __name__ == '__main__':
     ║    Server running on port: {:<36}║
     ║    Environment: {:<46}║
     ║                                                               ║
+    ║    Production: Use Gunicorn instead                           ║
+    ║    Run: gunicorn --worker-class eventlet -w 1 app:app        ║
+    ║                                                               ║
     ╚═══════════════════════════════════════════════════════════════╝
     """.format(port, 'Production' if is_production else 'Development'))
     
+    # Local development server
     socketio.run(
         app,
-        host='0.0.0.0',  # Required for external access (Render, Docker, etc.)
+        host='0.0.0.0',
         port=port,
-        debug=not is_production,  # Disable debug in production
-        allow_unsafe_werkzeug=True  # Allow Werkzeug in production for Socket.IO
+        debug=not is_production,
+        allow_unsafe_werkzeug=True  # Only for local development
     )
