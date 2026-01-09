@@ -231,20 +231,42 @@ function initializeDailyVideo(videoUrl) {
         return;
     }
     
+    // Don't initialize if already done
+    if (gameState.videoUrl === videoUrl) {
+        console.log('Daily.co already initialized');
+        return;
+    }
+    
     gameState.videoUrl = videoUrl;
     const iframe = document.getElementById('daily-iframe');
+    const loadingDiv = document.getElementById('video-loading');
     
-    // Set iframe src to Daily.co room URL
-    iframe.src = videoUrl;
+    // Hide loading message
+    if (loadingDiv) {
+        loadingDiv.style.display = 'none';
+    }
     
-    console.log('Daily.co video initialized:', videoUrl);
+    // Show and set iframe src to Daily.co room URL
+    if (iframe) {
+        iframe.style.display = 'block';
+        iframe.src = videoUrl;
+        console.log('Daily.co video initialized:', videoUrl);
+    }
 }
 
 function leaveDailyVideo() {
     const iframe = document.getElementById('daily-iframe');
+    const loadingDiv = document.getElementById('video-loading');
+    
     if (iframe) {
         iframe.src = '';
+        iframe.style.display = 'none';
     }
+    
+    if (loadingDiv) {
+        loadingDiv.style.display = 'block';
+    }
+    
     gameState.videoUrl = null;
     gameState.dailyCall = null;
 }
