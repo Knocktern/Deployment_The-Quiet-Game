@@ -283,6 +283,21 @@ function handleGameState(data) {
         initializeDailyVideo(data.video_url);
     }
     
+    // Check if all players are ready and show start button for host
+    if (gameState.isHost && !data.game_started) {
+        const allReady = Object.values(gameState.players).every(p => p.isReady);
+        const enoughPlayers = Object.keys(gameState.players).length >= 2;
+        const startBtn = document.getElementById('startGameBtn');
+        
+        if (allReady && enoughPlayers) {
+            startBtn.classList.remove('hidden');
+            startBtn.disabled = false;
+        } else {
+            startBtn.classList.add('hidden');
+            startBtn.disabled = true;
+        }
+    }
+    
     // Check if this is a mid-game join
     if (data.is_mid_game_join && data.game_started && !data.game_ended) {
         console.log('Mid-game join detected, entering active game...');
