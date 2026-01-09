@@ -57,7 +57,6 @@ class DailyCoManager:
                     'enable_recording': False,
                     'start_video_off': False,
                     'start_audio_off': True,  # Video only game
-                    'exp': int((os.time.time() + 3600) * 1000)  # 1 hour expiry
                 }
             }
             
@@ -67,6 +66,7 @@ class DailyCoManager:
                 return response.json()
             else:
                 print(f'Daily.co room creation failed: {response.status_code}')
+                print(f'Response: {response.text}')
                 return None
                 
         except Exception as e:
