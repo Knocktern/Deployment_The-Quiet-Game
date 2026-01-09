@@ -95,11 +95,16 @@ def register_main_routes(app: Flask) -> None:
 # Create Application and SocketIO
 # =============================================================================
 
-app = create_app('development')
+# Determine environment from env variable
+config_name = 'production' if os.environ.get('FLASK_ENV') == 'production' else 'development'
+
+app = create_app(config_name)
 socketio = SocketIO(
     app,
     cors_allowed_origins="*",
-    async_mode='eventlet'  # Use eventlet for production (already in requirements.txt)
+    async_mode='eventlet',  # Use eventlet for production (already in requirements.txt)
+    logger=True,  # Enable logging for debugging
+    engineio_logger=True  # Enable engine.io logging
 )
 
 
