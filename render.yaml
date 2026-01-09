@@ -2,7 +2,7 @@ services:
   - type: web
     name: the-quiet-game
     runtime: python
-    region: oregon  # Choose closest to your users: oregon, frankfurt, singapore, ohio
+    region: oregon
     plan: free
     branch: deployment
     buildCommand: pip install -r requirements.txt
@@ -10,10 +10,5 @@ services:
     envVars:
       - key: FLASK_ENV
         value: production
-      - key: PYTHON_VERSION
-        value: 3.11.0
       - key: SECRET_KEY
         generateValue: true
-    # Note: Free tier does NOT support persistent disks
-    # Database will reset on each deploy/restart
-    # Upgrade to Starter plan ($7/mo) for persistent storage
