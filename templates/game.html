@@ -98,16 +98,15 @@
         </div>
 
         <div class="game-main">
-            <!-- Video Section -->
+            <!-- Video Section (Daily.co) -->
             <div class="video-section">
-                <div class="actor-video-container">
-                    <video id="actorVideo" autoplay playsinline muted></video>
-                    <div class="actor-label" id="actorLabel">Actor: <span>---</span></div>
-                </div>
-                
-                <!-- Participants video grid -->
-                <div class="participants-grid" id="participantsGrid">
-                    <!-- Video elements will be added dynamically -->
+                <!-- Daily.co Prebuilt iframe -->
+                <div id="daily-video-container" class="daily-container">
+                    <iframe
+                        id="daily-iframe"
+                        allow="camera; microphone; fullscreen; display-capture; autoplay"
+                        style="width: 100%; height: 500px; border: none; border-radius: 8px;">
+                    </iframe>
                 </div>
                 
                 <!-- Word display for actor only -->

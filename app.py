@@ -21,6 +21,7 @@ from services.game_logic import (
     create_game, get_game, remove_game, GameState
 )
 from services.word_bank import get_words_for_selection
+from services.daily_video import daily_manager
 
 
 # =============================================================================
@@ -175,9 +176,23 @@ def handle_join_game(data: dict):
     # Check if game is already in progress (mid-game join)
     is_mid_game_join = game.game_started and not game.game_ended
     
+    # Create Daily.co room if this is the first player
+    if len(game.players) == 1:
+        video_room = daily_manager.create_room(room_code)
+        if video_room:
+            game.video_url = video_room['url']
+            print(f"Created Daily.co room: {video_room['url']}")
+        else:
+            print(f"Warning: Failed to create Daily.co room for {room_code}")
+    
     # Send current game state to the new player
     game_state = game.get_game_state()
     game_state['is_mid_game_join'] = is_mid_game_join
+    
+    # Add video URL to game state
+    if hasattr(game, 'video_url'):
+        game_state['video_url'] = game.video_url
+    
     emit('game-state', game_state)
     
     # Notify others that a new user joined

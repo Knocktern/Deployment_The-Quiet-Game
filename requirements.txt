@@ -17,6 +17,9 @@ eventlet==0.37.0
 # Production WSGI Server
 gunicorn==21.2.0
 
+# HTTP requests for Daily.co API
+requests==2.31.0
+
 # WebSocket Support
 simple-websocket==1.1.0
 h11==0.16.0

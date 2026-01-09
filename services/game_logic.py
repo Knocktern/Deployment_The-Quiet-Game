@@ -62,6 +62,7 @@ class GameState:
         self.current_actor_index: int = 0
         self.difficulty: str = "easy"
         self.created_at: datetime = datetime.now()
+        self.video_url: Optional[str] = None  # Daily.co room URL
     
     def add_player(self, user_id: str, username: str) -> bool:
         """Add a player to the game."""
@@ -288,7 +289,8 @@ class GameState:
             "max_rounds": self.max_rounds,
             "current_actor": self.get_current_actor(),
             "difficulty": self.difficulty,
-            "leaderboard": self.get_leaderboard()
+            "leaderboard": self.get_leaderboard(),
+            "video_url": self.video_url  # Include Daily.co room URL
         }
         
         # Include current round details for mid-game joins
