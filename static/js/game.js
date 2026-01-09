@@ -409,12 +409,21 @@ function handleReadyUpdate(data) {
     // Show/hide start button for HOST ONLY when all players are ready
     if (gameState.isHost) {
         const startBtn = document.getElementById('startGameBtn');
-        if (data.allReady && Object.keys(gameState.players).length >= 2) {
+        const playerCount = Object.keys(gameState.players).length;
+        
+        console.log('Ready update - Host:', gameState.isHost, 'All ready:', data.allReady, 'Players:', playerCount);
+        
+        if (data.allReady && playerCount >= 2) {
+            console.log('Showing start button');
             startBtn.classList.remove('hidden');
             startBtn.disabled = false;
         } else {
-            startBtn.classList.add('hidden');
             startBtn.disabled = true;
+            // Keep button visible for host but disabled if not ready
+            if (!data.allReady) {
+                console.log('Hiding start button - not all ready');
+                startBtn.classList.add('hidden');
+            }
         }
     }
 }

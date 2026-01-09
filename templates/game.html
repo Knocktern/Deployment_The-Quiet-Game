@@ -103,7 +103,15 @@
                 <!-- Daily.co Prebuilt iframe -->
                 <div id="daily-video-container" class="daily-container">
                     <div id="video-loading" style="color: white; text-align: center; padding: 2rem;">
-                        <p>📹 Video will load when game starts...</p>
+                        <h3>📹 Video Call Setup Needed</h3>
+                        <p>To enable video calls, set up a Daily.co API key:</p>
+                        <ol style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                            <li>Sign up at <a href="https://dashboard.daily.co/signup" target="_blank" style="color: #6C63FF;">daily.co</a> (free tier: 10,000 min/month)</li>
+                            <li>Get your API key from dashboard</li>
+                            <li>Set environment variable: <code>DAILY_API_KEY=your_key</code></li>
+                            <li>Redeploy the app</li>
+                        </ol>
+                        <p style="margin-top: 1rem; font-size: 0.9em; opacity: 0.7;">For now, you can play the game without video!</p>
                     </div>
                     <iframe
                         id="daily-iframe"
